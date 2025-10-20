@@ -1,0 +1,20 @@
+{
+  "name": "kbp",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "plugins/*",
+    "tools"
+  ],
+  "scripts": {
+    "build": "npm run -ws --if-present build",
+    "lint": "npm run -ws --if-present lint",
+    "pack": "npm run -ws --if-present pack",
+    "kb:check": "node tools/kb-check-css.mjs",
+    "kb:zipverify": "node tools/kb-zip-verify.mjs"
+  },
+  "devDependencies": {
+    "adm-zip": "^0.5.12",
+    "globby": "^14.0.0"
+  }
+}
