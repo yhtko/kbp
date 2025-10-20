@@ -1,0 +1,20 @@
+{
+  "name": "outlook-template",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "clean": "rimraf dist ship",
+    "build": "node -e \"console.log('build skipped')\"",
+    "lint": "echo skip",
+    "pack:init": "mkdirp .keys ship && kintone-plugin-packer . --ppk .keys/outlook-template.ppk --out ship/outlook-template.zip",
+    "pack": "mkdirp ship && kintone-plugin-packer . --ppk .keys/outlook-template.ppk --out ship/outlook-template.zip"
+ 
+  },
+  "devDependencies": {
+   
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

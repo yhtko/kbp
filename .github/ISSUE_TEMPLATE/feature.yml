@@ -1,0 +1,11 @@
+name: Feature request
+description: 新機能
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: 目的
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 受入基準

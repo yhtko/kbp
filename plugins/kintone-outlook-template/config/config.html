@@ -1,0 +1,63 @@
+﻿<div class="kb-root kb-page">
+  <div class="kb-container">
+    <div class="kb-card" style="display:flex; flex-direction:column; gap:16px;">
+      <h1 class="kb-title" data-i18n="title"></h1>
+      <p class="kb-desc kb-muted" data-i18n="description"></p>
+
+      <div id="message" class="kb-desc" role="alert" style="display:none; color:var(--kb-danger);"></div>
+
+      <div class="kb-row kb-config-row" data-field="views">
+        <label class="kb-label" data-i18n="viewFieldLabel"></label>
+        <div class="kb-input" style="flex:1; display:flex; flex-direction:column; gap:8px;">
+          <div id="viewList" style="display:flex; flex-direction:column; gap:6px; max-height:220px; overflow:auto; border:1px solid var(--kb-line); border-radius:var(--kb-radius); padding:12px;"></div>
+          <span class="kb-muted" data-i18n="viewHint"></span>
+        </div>
+      </div>
+
+      <div class="kb-row kb-config-row" data-field="to">
+        <label class="kb-label" for="toField" data-i18n="toFieldLabel"></label>
+        <div class="kb-input" style="flex:1; display:flex; flex-direction:column; gap:4px;">
+          <select id="toField"></select>
+          <span class="kb-muted" data-i18n="toHint"></span>
+        </div>
+      </div>
+
+      <div class="kb-row kb-config-row" data-field="subject">
+        <label class="kb-label" for="subjectField" data-i18n="subjectFieldLabel"></label>
+        <div class="kb-input" style="flex:1; display:flex; flex-direction:column; gap:4px;">
+          <select id="subjectField"></select>
+          <span class="kb-muted" data-i18n="subjectHint"></span>
+        </div>
+      </div>
+
+      <div class="kb-row kb-config-row" data-field="body">
+        <label class="kb-label" for="bodyField" data-i18n="bodyFieldLabel"></label>
+        <div class="kb-input" style="flex:1; display:flex; flex-direction:column; gap:4px;">
+          <select id="bodyField"></select>
+          <span class="kb-muted" data-i18n="bodyHint"></span>
+        </div>
+      </div>
+
+      <div class="kb-row kb-config-row" data-field="template">
+        <label class="kb-label" for="templateField" data-i18n="templateFieldLabel"></label>
+        <div class="kb-input" style="flex:1; display:flex; flex-direction:column; gap:4px;">
+          <select id="templateField"></select>
+          <span class="kb-muted" data-i18n="templateHint"></span>
+        </div>
+      </div>
+
+      <div class="kb-row kb-config-row" data-field="buttonLabel">
+        <label class="kb-label" for="buttonLabel" data-i18n="buttonLabel"></label>
+        <div class="kb-input" style="flex:1; display:flex; flex-direction:column; gap:4px;">
+          <input type="text" id="buttonLabel" maxlength="32" />
+          <span class="kb-muted" data-i18n="buttonHint"></span>
+        </div>
+      </div>
+
+      <div class="kb-toolbar" style="justify-content:flex-end; gap:8px; margin-top:8px;">
+        <button id="save" class="kb-btn kb-primary" type="button" data-i18n="save"></button>
+        <button id="cancel" class="kb-btn" type="button" data-i18n="cancel"></button>
+      </div>
+    </div>
+  </div>
+</div>

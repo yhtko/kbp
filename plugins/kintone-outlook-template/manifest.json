@@ -1,0 +1,27 @@
+{
+  "manifest_version": 1,
+  "version": "0.1.0",
+  "type": "APP",
+  "name": {
+    "ja": "Outlook メール作成ボタン",
+    "en": "Outlook Compose Button"
+  },
+  "description": {
+    "ja": "レコードの宛先・件名・本文から Outlook Web のメール下書きを開くボタンを追加します。",
+    "en": "Adds a button that opens an Outlook Web draft using record fields."
+  },
+  "icon": "images/icon.png",
+  "desktop": {
+    "js": ["app/plugin.js"],
+    "css": ["app/plugin.css"]
+  },
+  "mobile": {
+    "js": ["app/plugin.js"],
+    "css": ["app/plugin.css"]
+  },
+  "config": {
+    "html": "config/config.html",
+    "js": ["config/config.js"],
+    "css": ["config/config.css"]
+  }
+}
