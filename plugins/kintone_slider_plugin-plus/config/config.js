@@ -214,7 +214,7 @@
     const theme = document.getElementById('theme');
     const save = document.getElementById('save');
     const cancel = document.getElementById('cancel');
-
+    const presetsBox = document.getElementById('presetsBox');
     // Week start
     weekStart.value = String(cfg.weekStart);
 
@@ -232,8 +232,8 @@
 
     // Theme
     theme.value = cfg.theme;
-
     // Date field select
+    await populateDateFields(dateField, cfg.dateField);
     await populateViews(viewsBox, cfg.targetViews);
 if (cfg.dateField && !Array.from(dateField.options).some(o => o.value === cfg.dateField)) {
       // 持っている値が候補にない場合でも保持
