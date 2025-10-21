@@ -12,12 +12,12 @@
   },
   "icon": "src/images/icon_128.png",
   "desktop": {
-    "js": ["dist/js/plugin.js"],
-    "css": ["src/css/base.css", "src/css/plugin.css"]
+    "js": ["app/plugin.js"],
+    "css": ["app/base.css", "app/plugin.css"]
   },
   "config": {
-  "html": "src/html/config.html",
-  "js": ["src/js/config.js"],
-  "css": ["src/css/config.css"]
+  "html": "config/config.html",
+  "js": ["config/config.js"],
+  "css": ["config/config.css"]
   }
 }
