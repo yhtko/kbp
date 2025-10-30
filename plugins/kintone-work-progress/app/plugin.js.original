@@ -1,4 +1,4 @@
-﻿(function (PLUGIN_ID) {
+(function (PLUGIN_ID) {
   'use strict';
 
   if (!PLUGIN_ID) {
@@ -7,7 +7,7 @@
   }
 
   const DEFAULTS = {
-    subtableCode: 'テーブル',
+    subtableCode: '証拠',
     fileFieldCode: '画像',
     memoFieldCode: 'メモ',
     authorFieldCode: '',
@@ -47,7 +47,7 @@
       }
       return { ...DEFAULTS, ...raw };
     } catch (error) {
-      console.warn('kintone-work-progress: 設定の読み込みに失敗したため規定値を使用します', error);
+      console.warn('kintone-work-progress: 設定の読み込みに失敗したため既定値を使用します。', error);
       return { ...DEFAULTS };
     }
   }
@@ -116,8 +116,8 @@
     header.className = 'kwp-panel__header';
     header.innerHTML = [
       '<div class="kwp-panel__title">',
-      '<h2>ギャラリー</h2>',
-      '<p data-kwp-status class="kwp-panel__status">Ctrl+V で貼り付けしてください。</p>',
+      '<h2>進捗スクショ・ギャラリー</h2>',
+      '<p data-kwp-status class="kwp-panel__status">Ctrl/⌘+V ですぐに貼り付けられます</p>',
       '</div>'
     ].join('');
 
@@ -143,7 +143,7 @@
     dropzone.dataset.kwpDropzone = 'true';
     dropzone.tabIndex = 0;
     dropzone.innerHTML = [
-      '<p class="kwp-dropzone__label">ここにドラッグ＆ドロップ</p>',
+      '<p class="kwp-dropzone__label">ここに貼り付け / ドラッグ&ドロップ</p>',
       '<p class="kwp-dropzone__hint">画像以外のデータは無視されます</p>'
     ].join('');
 
@@ -154,7 +154,7 @@
     const empty = document.createElement('p');
     empty.className = 'kwp-empty';
     empty.dataset.kwpEmpty = 'true';
-    empty.textContent = 'まだファイルがありません。Ctrl+vで追加してください。';
+    empty.textContent = 'まだ証拠がありません。Ctrl/⌘+V で追加しましょう。';
 
     const toastStack = document.createElement('div');
     toastStack.className = 'kwp-toast-stack';
@@ -299,25 +299,10 @@
     }
     empty.hidden = true;
     const fragment = document.createDocumentFragment();
-
-    async function getKintoneFileObjectUrl(fileKey, { apiToken } = {}) {
-      const endpoint = kintone.api.url('/k/v1/file', true); // ゲストなら '/k/guest/<guestId>/v1/file'
-      const headers = { 'X-Requested-With': 'XMLHttpRequest' };
-      if (apiToken) headers['X-Cybozu-API-Token'] = apiToken;
-
-      const res = await fetch(`${endpoint}?fileKey=${encodeURIComponent(fileKey)}`, {
-        method: 'GET',
-        headers,
-        credentials: 'same-origin', // セッション認証でCookie付与
-      });
-      if (!res.ok) throw new Error(`fetch failed: ${res.status} ${res.statusText}`);
-      const blob = await res.blob();
-      return URL.createObjectURL(blob);
-    }
-
     rows.forEach((row) => {
-      if (!row.file) return;
-
+      if (!row.file) {
+        return;
+      }
       const item = document.createElement('li');
       item.className = 'kwp-card';
       item.dataset.rowId = row.id;
@@ -327,38 +312,10 @@
       thumbButton.className = 'kwp-card__thumb';
 
       const img = document.createElement('img');
-      img.alt = row.memoText || '画像';
+      const fileUrl = `${kintone.api.url('/k/v1/file', true)}?fileKey=${encodeURIComponent(row.file.fileKey)}`;
+      img.src = fileUrl;
+      img.alt = row.memoText || '証拠画像';
       img.loading = 'lazy';
-
-      // プレースホルダー（任意）
-      // img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="240" height="180"></svg>';
-
-      // 重要：fetchで取得してからimg.srcへ設定
-      (async () => {
-        try {
-          const objectUrl = await getKintoneFileObjectUrl(row.file.fileKey /* , { apiToken: '必要ならトークン' } */);
-          img.src = objectUrl;
-          // 表示後にメモリ解放
-          img.addEventListener('load', () => {
-            // 画像が読み込まれてから少し待って解放（即解放すると一部ブラウザで描画直後に消えることがあるため）
-            setTimeout(() => URL.revokeObjectURL(objectUrl), 3000);
-          }, { once: true });
-        } catch (e) {
-          console.error(e);
-          // フォールバック（任意）
-          img.alt = '画像の取得に失敗しました';
-          img.decoding = 'async';
-          // 失敗が分かる簡易UI
-          img.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(
-            `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="180">
-              <rect width="100%" height="100%" fill="#f3f4f6"/>
-              <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="12" fill="#6b7280">
-                LOAD FAILED
-              </text>
-            </svg>`
-          );
-        }
-      })();
       thumbButton.appendChild(img);
 
       thumbButton.addEventListener('click', () => {
@@ -375,7 +332,9 @@
       memo.title = state.canEdit ? 'クリックして編集' : '閲覧のみ';
       memo.disabled = !state.canEdit;
       memo.addEventListener('click', () => {
-        if (!state.canEdit) return;
+        if (!state.canEdit) {
+          return;
+        }
         openMemoEditor(row);
       });
 
@@ -390,6 +349,7 @@
       body.appendChild(meta);
       item.appendChild(thumbButton);
       item.appendChild(body);
+
       fragment.appendChild(item);
     });
     list.appendChild(fragment);
@@ -489,7 +449,7 @@
     if (!state.lightbox) {
       const overlay = document.createElement('div');
       overlay.className = 'kwp-lightbox';
-      overlay.innerHTML = '<div class="kwp-lightbox__backdrop"></div><img class="kwp-lightbox__image" alt=""><button type="button" class="kwp-lightbox__close" aria-label="髢峨§繧・>ﾃ・/button>';
+      overlay.innerHTML = '<div class="kwp-lightbox__backdrop"></div><img class="kwp-lightbox__image" alt=""><button type="button" class="kwp-lightbox__close" aria-label="閉じる">×</button>';
       document.body.appendChild(overlay);
       overlay.addEventListener('click', (event) => {
         if (event.target === overlay || event.target.classList.contains('kwp-lightbox__close') || event.target.classList.contains('kwp-lightbox__backdrop')) {
@@ -507,13 +467,13 @@
       };
     }
     state.lightbox.image.src = `${kintone.api.url('/k/v1/file', true)}?fileKey=${encodeURIComponent(row.file.fileKey)}`;
-    state.lightbox.image.alt = row.memoText || row.file.name || '画像';
+    state.lightbox.image.alt = row.memoText || row.file.name || '証拠画像';
     state.lightbox.overlay.classList.add('kwp-lightbox--visible');
   }
 
   async function ensureLatestRecord() {
     if (!state.recordId) {
-      throw new Error('画像の読み込みに失敗しました');
+      throw new Error('レコードIDが不明です。');
     }
     const response = await kintone.api(kintone.api.url('/k/v1/record', true), 'GET', {
       app: state.appId,
@@ -578,7 +538,7 @@
       panel.classList.toggle('kwp-panel--busy', isBusy);
     }
     if (status) {
-      status.textContent = message || (isBusy ? '処理中です…' : 'Ctrl+V ですぐに貼り付けられます');
+      status.textContent = message || (isBusy ? '処理中です…' : 'Ctrl/⌘+V ですぐに貼り付けられます');
     }
   }
 
@@ -694,7 +654,7 @@
     if (!files || files.length === 0) {
       return;
     }
-    setBusy(true, '画像を処理しています...');
+    setBusy(true, '画像を処理しています…');
     try {
       const compressed = [];
       for (const file of files) {
@@ -703,7 +663,7 @@
           compressed.push(converted);
         } catch (error) {
           console.error(error);
-          pushToast('アップロードに失敗しました。: ${file.name}', 'error');
+          pushToast(`圧縮に失敗しました: ${file.name}`, 'error');
         }
       }
       if (compressed.length === 0) {
@@ -720,10 +680,10 @@
       if (state.settings.commentEnabled) {
         await postComment(uploads.length);
       }
-      pushToast(`ファイルを${processed.length}件追加しました。`, 'success');
+      pushToast(`証拠を${uploads.length}件追加しました。`, 'success');
     } catch (error) {
       console.error(error);
-      pushToast('ファイルの追加に失敗しました。', 'error');
+      pushToast('証拠の追加に失敗しました。', 'error');
     } finally {
       setBusy(false);
       if (state.elements.fileInput) {
@@ -791,13 +751,13 @@
   }
 
   async function postComment(count) {
-    const message = state.settings.commentBody ||'スクショを追加しました' ;
+    const message = state.settings.commentBody || 'スクショを追加しました。';
     try {
       await kintone.api(kintone.api.url('/k/v1/record/comment', true), 'POST', {
         app: state.appId,
         record: state.recordId,
         comment: {
-          text: `${message} (${count})`
+          text: `${message} (${count}件)`
         }
       });
     } catch (error) {
@@ -1127,11 +1087,9 @@
         await refreshRecord({ silent: true });
       } catch (error) {
         console.error(error);
-        pushToast('ファイルを読み込めませんでした。', 'error');
+        pushToast('証拠を読み込めませんでした。', 'error');
       }
       return event;
     });
   });
 })(kintone.$PLUGIN_ID);
-
-

@@ -2,24 +2,24 @@
   'use strict';
 
   if (!PLUGIN_ID) {
-    console.warn('kintone-work-progress: プラグインIDを取得できませんでした。');
+    console.warn('kintone-work-progress: 繝励Λ繧ｰ繧､繝ｳID繧貞叙蠕励〒縺阪∪縺帙ｓ縺ｧ縺励◆縲・);
     return;
   }
 
   const DEFAULTS = {
-    subtableCode: 'テーブル',
-    fileFieldCode: '画像',
-    memoFieldCode: 'メモ',
+    subtableCode: '險ｼ諡',
+    fileFieldCode: '逕ｻ蜒・,
+    memoFieldCode: '繝｡繝｢',
     authorFieldCode: '',
     timestampFieldCode: '',
     layout: 'grid',
     compressionEnabled: true,
     maxImageEdge: 1600,
     imageQuality: 0.85,
-    memoTemplate: 'スクショ追加',
+    memoTemplate: '繧ｹ繧ｯ繧ｷ繝ｧ霑ｽ蜉',
     postAddBehavior: 'instant',
     commentEnabled: false,
-    commentBody: 'スクショを追加しました'
+    commentBody: '繧ｹ繧ｯ繧ｷ繝ｧ繧定ｿｽ蜉縺励∪縺励◆'
   };
 
   const state = {
@@ -47,7 +47,7 @@
       }
       return { ...DEFAULTS, ...raw };
     } catch (error) {
-      console.warn('kintone-work-progress: 設定の読み込みに失敗したため規定値を使用します', error);
+      console.warn('kintone-work-progress: 險ｭ螳壹・隱ｭ縺ｿ霎ｼ縺ｿ縺ｫ螟ｱ謨励＠縺溘◆繧∵里螳壼､繧剃ｽｿ逕ｨ縺励∪縺吶・, error);
       return { ...DEFAULTS };
     }
   }
@@ -116,8 +116,8 @@
     header.className = 'kwp-panel__header';
     header.innerHTML = [
       '<div class="kwp-panel__title">',
-      '<h2>ギャラリー</h2>',
-      '<p data-kwp-status class="kwp-panel__status">Ctrl+V で貼り付けしてください。</p>',
+      '<h2>騾ｲ謐励せ繧ｯ繧ｷ繝ｧ繝ｻ繧ｮ繝｣繝ｩ繝ｪ繝ｼ</h2>',
+      '<p data-kwp-status class="kwp-panel__status">Ctrl/竚・V 縺ｧ縺吶＄縺ｫ雋ｼ繧贋ｻ倥￠繧峨ｌ縺ｾ縺・/p>',
       '</div>'
     ].join('');
 
@@ -128,11 +128,11 @@
     focusButton.type = 'button';
     focusButton.className = 'kwp-button kwp-button--ghost';
     focusButton.dataset.kwpFocus = 'true';
-    focusButton.textContent = '貼り付けボックスをフォーカス';
+    focusButton.textContent = '雋ｼ繧贋ｻ倥￠繝懊ャ繧ｯ繧ｹ繧偵ヵ繧ｩ繝ｼ繧ｫ繧ｹ';
 
     const uploadLabel = document.createElement('label');
     uploadLabel.className = 'kwp-upload';
-    uploadLabel.innerHTML = '<input type="file" accept="image/*" data-kwp-file multiple><span>ファイルを選択</span>';
+    uploadLabel.innerHTML = '<input type="file" accept="image/*" data-kwp-file multiple><span>繝輔ぃ繧､繝ｫ繧帝∈謚・/span>';
 
     controls.appendChild(uploadLabel);
     controls.appendChild(focusButton);
@@ -143,8 +143,8 @@
     dropzone.dataset.kwpDropzone = 'true';
     dropzone.tabIndex = 0;
     dropzone.innerHTML = [
-      '<p class="kwp-dropzone__label">ここにドラッグ＆ドロップ</p>',
-      '<p class="kwp-dropzone__hint">画像以外のデータは無視されます</p>'
+      '<p class="kwp-dropzone__label">縺薙％縺ｫ雋ｼ繧贋ｻ倥￠ / 繝峨Λ繝・げ&繝峨Ο繝・・</p>',
+      '<p class="kwp-dropzone__hint">逕ｻ蜒丈ｻ･螟悶・繝・・繧ｿ縺ｯ辟｡隕悶＆繧後∪縺・/p>'
     ].join('');
 
     const list = document.createElement('ul');
@@ -154,7 +154,7 @@
     const empty = document.createElement('p');
     empty.className = 'kwp-empty';
     empty.dataset.kwpEmpty = 'true';
-    empty.textContent = 'まだファイルがありません。Ctrl+vで追加してください。';
+    empty.textContent = '縺ｾ縺險ｼ諡縺後≠繧翫∪縺帙ｓ縲・trl/竚・V 縺ｧ霑ｽ蜉縺励∪縺励ｇ縺・・;
 
     const toastStack = document.createElement('div');
     toastStack.className = 'kwp-toast-stack';
@@ -216,7 +216,7 @@
         })
         .filter(Boolean);
       if (files.length === 0) {
-        pushToast('画像データが見つかりませんでした。', 'info');
+        pushToast('逕ｻ蜒上ョ繝ｼ繧ｿ縺瑚ｦ九▽縺九ｊ縺ｾ縺帙ｓ縺ｧ縺励◆縲・, 'info');
         return;
       }
       event.preventDefault();
@@ -246,7 +246,7 @@
       dropzone.classList.remove('kwp-dropzone--active');
       const files = Array.from(event.dataTransfer.files || []).filter((file) => file.type.startsWith('image/'));
       if (files.length === 0) {
-        pushToast('画像ファイルをドロップしてください。', 'info');
+        pushToast('逕ｻ蜒上ヵ繧｡繧､繝ｫ繧偵ラ繝ｭ繝・・縺励※縺上□縺輔＞縲・, 'info');
         return;
       }
       processFiles(files);
@@ -258,7 +258,7 @@
       }
       const files = Array.from(event.target.files || []).filter((file) => file.type.startsWith('image/'));
       if (files.length === 0) {
-        pushToast('画像ファイルを選択してください。', 'info');
+        pushToast('逕ｻ蜒上ヵ繧｡繧､繝ｫ繧帝∈謚槭＠縺ｦ縺上□縺輔＞縲・, 'info');
         return;
       }
       processFiles(files);
@@ -299,25 +299,10 @@
     }
     empty.hidden = true;
     const fragment = document.createDocumentFragment();
-
-    async function getKintoneFileObjectUrl(fileKey, { apiToken } = {}) {
-      const endpoint = kintone.api.url('/k/v1/file', true); // ゲストなら '/k/guest/<guestId>/v1/file'
-      const headers = { 'X-Requested-With': 'XMLHttpRequest' };
-      if (apiToken) headers['X-Cybozu-API-Token'] = apiToken;
-
-      const res = await fetch(`${endpoint}?fileKey=${encodeURIComponent(fileKey)}`, {
-        method: 'GET',
-        headers,
-        credentials: 'same-origin', // セッション認証でCookie付与
-      });
-      if (!res.ok) throw new Error(`fetch failed: ${res.status} ${res.statusText}`);
-      const blob = await res.blob();
-      return URL.createObjectURL(blob);
-    }
-
     rows.forEach((row) => {
-      if (!row.file) return;
-
+      if (!row.file) {
+        return;
+      }
       const item = document.createElement('li');
       item.className = 'kwp-card';
       item.dataset.rowId = row.id;
@@ -327,38 +312,10 @@
       thumbButton.className = 'kwp-card__thumb';
 
       const img = document.createElement('img');
-      img.alt = row.memoText || '画像';
+      const fileUrl = `${kintone.api.url('/k/v1/file', true)}?fileKey=${encodeURIComponent(row.file.fileKey)}`;
+      img.src = fileUrl;
+      img.alt = row.memoText || '險ｼ諡逕ｻ蜒・;
       img.loading = 'lazy';
-
-      // プレースホルダー（任意）
-      // img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="240" height="180"></svg>';
-
-      // 重要：fetchで取得してからimg.srcへ設定
-      (async () => {
-        try {
-          const objectUrl = await getKintoneFileObjectUrl(row.file.fileKey /* , { apiToken: '必要ならトークン' } */);
-          img.src = objectUrl;
-          // 表示後にメモリ解放
-          img.addEventListener('load', () => {
-            // 画像が読み込まれてから少し待って解放（即解放すると一部ブラウザで描画直後に消えることがあるため）
-            setTimeout(() => URL.revokeObjectURL(objectUrl), 3000);
-          }, { once: true });
-        } catch (e) {
-          console.error(e);
-          // フォールバック（任意）
-          img.alt = '画像の取得に失敗しました';
-          img.decoding = 'async';
-          // 失敗が分かる簡易UI
-          img.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(
-            `<svg xmlns="http://www.w3.org/2000/svg" width="240" height="180">
-              <rect width="100%" height="100%" fill="#f3f4f6"/>
-              <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-size="12" fill="#6b7280">
-                LOAD FAILED
-              </text>
-            </svg>`
-          );
-        }
-      })();
       thumbButton.appendChild(img);
 
       thumbButton.addEventListener('click', () => {
@@ -371,11 +328,13 @@
       const memo = document.createElement('button');
       memo.type = 'button';
       memo.className = 'kwp-card__memo';
-      memo.textContent = row.memoText || 'メモは未入力';
-      memo.title = state.canEdit ? 'クリックして編集' : '閲覧のみ';
+      memo.textContent = row.memoText || '繝｡繝｢縺ｯ譛ｪ蜈･蜉・;
+      memo.title = state.canEdit ? '繧ｯ繝ｪ繝・け縺励※邱ｨ髮・ : '髢ｲ隕ｧ縺ｮ縺ｿ';
       memo.disabled = !state.canEdit;
       memo.addEventListener('click', () => {
-        if (!state.canEdit) return;
+        if (!state.canEdit) {
+          return;
+        }
         openMemoEditor(row);
       });
 
@@ -390,6 +349,7 @@
       body.appendChild(meta);
       item.appendChild(thumbButton);
       item.appendChild(body);
+
       fragment.appendChild(item);
     });
     list.appendChild(fragment);
@@ -422,15 +382,15 @@
       const newValue = commit ? input.value.trim() : row.memoText;
       memoButton.dataset.editing = 'false';
       memoButton.innerHTML = '';
-      memoButton.textContent = newValue || 'メモは未入力';
+      memoButton.textContent = newValue || '繝｡繝｢縺ｯ譛ｪ蜈･蜉・;
       if (commit && newValue !== row.memoText) {
         memoButton.disabled = true;
         try {
           await updateMemo(row.id, newValue);
-          pushToast('メモを更新しました。', 'success');
+          pushToast('繝｡繝｢繧呈峩譁ｰ縺励∪縺励◆縲・, 'success');
         } catch (error) {
           console.error(error);
-          pushToast('メモの更新に失敗しました。', 'error');
+          pushToast('繝｡繝｢縺ｮ譖ｴ譁ｰ縺ｫ螟ｱ謨励＠縺ｾ縺励◆縲・, 'error');
         } finally {
           memoButton.disabled = false;
         }
@@ -453,7 +413,7 @@
     await ensureLatestRecord();
     const subtable = state.record?.[state.settings.subtableCode];
     if (!subtable || !Array.isArray(subtable.value)) {
-      throw new Error('サブテーブルを取得できませんでした。');
+      throw new Error('繧ｵ繝悶ユ繝ｼ繝悶Ν繧貞叙蠕励〒縺阪∪縺帙ｓ縺ｧ縺励◆縲・);
     }
     const payloadRows = subtable.value.map((row) => ({
       id: row.id,
@@ -461,7 +421,7 @@
     }));
     const target = payloadRows.find((row) => row.id === rowId);
     if (!target) {
-      throw new Error('対象の行が見つかりません。');
+      throw new Error('蟇ｾ雎｡縺ｮ陦後′隕九▽縺九ｊ縺ｾ縺帙ｓ縲・);
     }
     if (!target.value[state.settings.memoFieldCode]) {
       target.value[state.settings.memoFieldCode] = { value: '' };
@@ -507,13 +467,13 @@
       };
     }
     state.lightbox.image.src = `${kintone.api.url('/k/v1/file', true)}?fileKey=${encodeURIComponent(row.file.fileKey)}`;
-    state.lightbox.image.alt = row.memoText || row.file.name || '画像';
+    state.lightbox.image.alt = row.memoText || row.file.name || '險ｼ諡逕ｻ蜒・;
     state.lightbox.overlay.classList.add('kwp-lightbox--visible');
   }
 
   async function ensureLatestRecord() {
     if (!state.recordId) {
-      throw new Error('画像の読み込みに失敗しました');
+      throw new Error('繝ｬ繧ｳ繝ｼ繝迂D縺御ｸ肴・縺ｧ縺吶・);
     }
     const response = await kintone.api(kintone.api.url('/k/v1/record', true), 'GET', {
       app: state.appId,
@@ -578,7 +538,7 @@
       panel.classList.toggle('kwp-panel--busy', isBusy);
     }
     if (status) {
-      status.textContent = message || (isBusy ? '処理中です…' : 'Ctrl+V ですぐに貼り付けられます');
+      status.textContent = message || (isBusy ? '蜃ｦ逅・ｸｭ縺ｧ縺吮ｦ' : 'Ctrl/竚・V 縺ｧ縺吶＄縺ｫ雋ｼ繧贋ｻ倥￠繧峨ｌ縺ｾ縺・);
     }
   }
 
@@ -667,7 +627,7 @@
     const blob = await new Promise((resolve, reject) => {
       canvas.toBlob((result) => {
         if (!result) {
-          reject(new Error('画像の圧縮に失敗しました。'));
+          reject(new Error('逕ｻ蜒上・蝨ｧ邵ｮ縺ｫ螟ｱ謨励＠縺ｾ縺励◆縲・));
           return;
         }
         resolve(result);
@@ -694,7 +654,7 @@
     if (!files || files.length === 0) {
       return;
     }
-    setBusy(true, '画像を処理しています...');
+    setBusy(true, '逕ｻ蜒上ｒ蜃ｦ逅・＠縺ｦ縺・∪縺吮ｦ');
     try {
       const compressed = [];
       for (const file of files) {
@@ -703,11 +663,11 @@
           compressed.push(converted);
         } catch (error) {
           console.error(error);
-          pushToast('アップロードに失敗しました。: ${file.name}', 'error');
+          pushToast(`蝨ｧ邵ｮ縺ｫ螟ｱ謨励＠縺ｾ縺励◆: ${file.name}`, 'error');
         }
       }
       if (compressed.length === 0) {
-        pushToast('アップロード可能な画像がありませんでした。', 'error');
+        pushToast('繧｢繝・・繝ｭ繝ｼ繝牙庄閭ｽ縺ｪ逕ｻ蜒上′縺ゅｊ縺ｾ縺帙ｓ縺ｧ縺励◆縲・, 'error');
         return;
       }
       await ensureLatestRecord();
@@ -720,10 +680,10 @@
       if (state.settings.commentEnabled) {
         await postComment(uploads.length);
       }
-      pushToast(`ファイルを${processed.length}件追加しました。`, 'success');
+      pushToast(`險ｼ諡繧・{uploads.length}莉ｶ霑ｽ蜉縺励∪縺励◆縲Ａ, 'success');
     } catch (error) {
       console.error(error);
-      pushToast('ファイルの追加に失敗しました。', 'error');
+      pushToast('險ｼ諡縺ｮ霑ｽ蜉縺ｫ螟ｱ謨励＠縺ｾ縺励◆縲・, 'error');
     } finally {
       setBusy(false);
       if (state.elements.fileInput) {
@@ -735,7 +695,7 @@
   async function appendRows(uploads) {
     const subtable = state.record?.[state.settings.subtableCode];
     if (!subtable || !Array.isArray(subtable.value)) {
-      throw new Error('サブテーブルを取得できませんでした。');
+      throw new Error('繧ｵ繝悶ユ繝ｼ繝悶Ν繧貞叙蠕励〒縺阪∪縺帙ｓ縺ｧ縺励◆縲・);
     }
     const existing = subtable.value.map((row) => ({
       id: row.id,
@@ -791,17 +751,17 @@
   }
 
   async function postComment(count) {
-    const message = state.settings.commentBody ||'スクショを追加しました' ;
+    const message = state.settings.commentBody || '繧ｹ繧ｯ繧ｷ繝ｧ繧定ｿｽ蜉縺励∪縺励◆縲・;
     try {
       await kintone.api(kintone.api.url('/k/v1/record/comment', true), 'POST', {
         app: state.appId,
         record: state.recordId,
         comment: {
-          text: `${message} (${count})`
+          text: `${message} (${count}莉ｶ)`
         }
       });
     } catch (error) {
-      console.warn('kintone-work-progress: コメント投稿に失敗しました。', error);
+      console.warn('kintone-work-progress: 繧ｳ繝｡繝ｳ繝域兜遞ｿ縺ｫ螟ｱ謨励＠縺ｾ縺励◆縲・, error);
     }
   }
 
@@ -816,7 +776,7 @@
   function initialize() {
     state.settings = parseSettings(kintone.plugin.app.getConfig(PLUGIN_ID));
     if (!state.settings.subtableCode || !state.settings.fileFieldCode || !state.settings.memoFieldCode) {
-      console.warn('kintone-work-progress: 設定が不足しているため停止します。');
+      console.warn('kintone-work-progress: 險ｭ螳壹′荳崎ｶｳ縺励※縺・ｋ縺溘ａ蛛懈ｭ｢縺励∪縺吶・);
       return false;
     }
     injectStyles();
@@ -1127,11 +1087,10 @@
         await refreshRecord({ silent: true });
       } catch (error) {
         console.error(error);
-        pushToast('ファイルを読み込めませんでした。', 'error');
+        pushToast('險ｼ諡繧定ｪｭ縺ｿ霎ｼ繧√∪縺帙ｓ縺ｧ縺励◆縲・, 'error');
       }
       return event;
     });
   });
 })(kintone.$PLUGIN_ID);
-
 
